@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Perlin Noise Part1.sln"
+    "dotnet.defaultSolution": "Atividade 1 Parte1.sln"
 }
