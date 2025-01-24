@@ -14,7 +14,8 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 100)]
     public int randomFillPercent;
 
-    public GameObject floorPrefab; // Prefab a ser colocado
+    public GameObject floorPrefab; // Prefab do chão
+    public GameObject[] cavePrefabs; // Array para os novos prefabs da caverna
     private Coord floorPosition;  // Coordenada onde o prefab será instanciado
 
     int[,] map;
@@ -22,13 +23,6 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         GenerateMap();
-    }
-
-    void Update()
-    {
-        // if (Input.GetMouseButtonDown(0)) {
-        //     GenerateMap();
-        // }
     }
 
     void GenerateMap()
@@ -64,10 +58,11 @@ public class MapGenerator : MonoBehaviour
         MeshGenerator meshGen = GetComponent<MeshGenerator>();
         meshGen.GenerateMesh(borderedMap, 1);
 
-        PlaceSingleFloorPrefab(); // Chamada para posicionar apenas 1 prefab
+        PlaceFloorPrefab(); // Coloca o prefab do chão
+        PlaceCaveObjects(); // Coloca objetos adicionais na caverna
     }
 
-    void PlaceSingleFloorPrefab()
+    void PlaceFloorPrefab()
     {
         List<Coord> openTiles = new List<Coord>();
 
@@ -92,6 +87,43 @@ public class MapGenerator : MonoBehaviour
             // Converte a coordenada para a posição no mundo e instancia o prefab
             Vector3 worldPosition = CoordToWorldPoint(floorPosition);
             Instantiate(floorPrefab, worldPosition, Quaternion.identity);
+        }
+    }
+
+    void PlaceCaveObjects()
+    {
+        List<Coord> openTiles = new List<Coord>();
+
+        // Encontra todos os espaços sem paredes onde podem ser colocados os objetos
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] == 0)
+                {
+                    openTiles.Add(new Coord(x, y));
+                }
+            }
+        }
+
+        // Garantir que pelo menos 15 objetos sejam colocados
+        System.Random rand = new System.Random();
+
+        int objectsPlaced = 0;
+        while (objectsPlaced < 15 && openTiles.Count > 0)
+        {
+            // Seleciona uma posição aleatória
+            floorPosition = openTiles[rand.Next(openTiles.Count)];
+            openTiles.Remove(floorPosition); // Remove a posição para não reutilizar
+
+            // Converte para a posição no mundo e instancia um objeto aleatório da caverna
+            Vector3 worldPosition = CoordToWorldPoint(floorPosition);
+            GameObject prefabToPlace = cavePrefabs[rand.Next(cavePrefabs.Length)];
+
+            // Instancia o prefab
+            Instantiate(prefabToPlace, worldPosition, Quaternion.identity);
+
+            objectsPlaced++;
         }
     }
 
@@ -253,7 +285,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-
     List<Coord> GetLine(Coord from, Coord to)
     {
         List<Coord> line = new List<Coord>();

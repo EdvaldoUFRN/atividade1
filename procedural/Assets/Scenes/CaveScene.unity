@@ -250,6 +250,11 @@ MonoBehaviour:
   useRandomSeed: 1
   randomFillPercent: 48
   floorPrefab: {fileID: 2231054520375833143, guid: 8dcda5f50770f415a9ca38dbcd527bac, type: 3}
+  cavePrefabs:
+  - {fileID: 5887890672744588420, guid: 1c245621017354a799f52753ad43aa66, type: 3}
+  - {fileID: 5887890672744588420, guid: 1c245621017354a799f52753ad43aa66, type: 3}
+  - {fileID: 5887890672744588420, guid: 1c245621017354a799f52753ad43aa66, type: 3}
+  - {fileID: 5887890672744588420, guid: 1c245621017354a799f52753ad43aa66, type: 3}
 --- !u!4 &509230443
 Transform:
   m_ObjectHideFlags: 0
