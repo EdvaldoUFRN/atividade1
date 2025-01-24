@@ -1,2 +1,3 @@
-# atividade1
-Esse projeto está sendo criado para a atividade 1 em jogos avançados
+ Checkpoint 2 é o arquivo procedural
+
+Esse projeto está sendo criado para a atividade em jogos avançados
